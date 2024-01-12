@@ -1,0 +1,26 @@
+const mongoose = require("mongoose")
+
+const ratingAndReviewsSchema = new mongoose.Schema({
+    user : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "User",
+        //required: true,
+    },
+    rating :{
+        Type: Number,   
+        //required:true,
+    },
+    reviews : {
+
+        Type : String,
+        //required : true,
+    },
+    course: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: "Course",
+		index: true,
+	},
+})
+
+module.exports = mongoose.model("RatingAndReviews",ratingAndReviewsSchema);

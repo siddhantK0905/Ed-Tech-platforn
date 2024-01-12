@@ -1,4 +1,7 @@
 const Category = require("../models/Category");
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max)
+  }
 
 exports.createCategory = async (req,res) => {
     try{
@@ -65,6 +68,7 @@ exports.categoryPageDetails = async (req,res) => {
         //get category id 
         const {categoryId} = req.body;
         //Selected courses for specific category
+        console.log("INto categoryPageDetails at server with category id is ",categoryId )
         const selectedCourses = await Category.findById(categoryId)
                                                 .populate({
                                                    path:"courses",
@@ -72,6 +76,9 @@ exports.categoryPageDetails = async (req,res) => {
                                                    populate:"RatingAndReviews", 
                                                 })
                                                 .exec();
+
+        console.log("Selected courses are ", selectedCourses)    
+        
         //validation
         if(!selectedCourses){
             return res.status(400).json({
@@ -80,13 +87,13 @@ exports.categoryPageDetails = async (req,res) => {
             })
         }
 
-        if(selectedCourses.courses.length== 0){
-            console.log("No courses for these category");
-            return res.status(400).json({
-                success:false,
-                message:"No Courses found for these category"
-            })
-        }
+        // if(selectedCourses.courses.length== 0){
+        //     console.log("No courses for these category");
+        //     return res.status(400).json({
+        //         success:false,
+        //         message:"No Courses found for these category"
+        //     })
+        // }
 
         //get courses for different category
         const categoriesExceptedSelected = await Category.find({

@@ -57,6 +57,7 @@ const CourseInformationForm = () => {
       setValue("courseTags", course.Tag );
       setValue("courseBenefits",course.whatYouWillLearn);
       setValue("courseCategory",course.category);
+      console.log("setValue -courseCategory == ", course.category);
       setValue("courseRequirements",course.instructions);
       setValue("courseImage", course.thumbnail);
     }
@@ -106,6 +107,7 @@ const CourseInformationForm = () => {
             formData.append("whatYouWillLearn",data.courseBenefits)
           }
            if(currentValue.courseCategories._id != course.category._id){
+            console.log("data.courseCategory == ", data.courseCategory);
              formData.append("category",data.courseCategory)
            }
           if(currentValue.courseRequirements.toString() != course.instructions.toString()){
@@ -219,16 +221,16 @@ const CourseInformationForm = () => {
         <div>
             <label htmlFor='couresCategory' className=' text-richblack-5 p-2 m-2'>Course Category<sup className=' text-pink-200'>*</sup></label>
             <select
-              id='courseCategory'
               {...register("courseCategory",{required:true})}
-              className='rounded-md p-2 m-2 bg-richblack-700 w-full  text-richblack-5 '
               defaultValue=""
+              id='courseCategory'
+              className='rounded-md p-2 m-2 bg-richblack-700 w-full  text-richblack-5 '
             >
               <option>Choose Category</option>
               {
                  courseCategories!=null && courseCategories.map( (category, index) => (
-                  <option key={index} value={category?.id}>
-                    {category.name}
+                  <option key={index} value={category?._id}>
+                    {category?.name}
                    </option>
                 ))
               }

@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { categories } from '../services/apis';
 import {apiConnector} from "../services/apiConnector"
 import { getCatalogPageData } from '../services/operations/pageAndComponentData';
+import Course_Card from '../components/core/Catalog/Course_Card';
 
 const Catalog = () => {
 
@@ -38,15 +39,15 @@ const Catalog = () => {
   return (
     <div className=' text-white'>
       <div>
-        <p></p>
-        <p></p>
-        <p></p>
+        <p>Home / Catlog / <span> {` ${catalogName}`}</span></p>
+        <p>{catalogName}</p>
+        <p>{categoryPageData?.Data?.selectedCourses?.description}</p>
 
 
         {/* section 1 */}
         <div>
           <p>Courses to get you started</p>
-          <div>
+          <div className='flex gap-x-3'>
             <p>Most popular</p>
             <p>New</p>
             <p>Trending</p>
@@ -58,7 +59,7 @@ const Catalog = () => {
 
         {/* Section 2 */}
         <div>
-          <div>Top courses in </div>
+          <div>Top courses in {categoryPageData?.Data?.selectedCourses?.name}</div>
           <div>
             <CourseSlider/>
           </div>
@@ -68,7 +69,12 @@ const Catalog = () => {
         <div>
           <div>Frequently Bought Together</div>
           <div>
-
+            {
+              categoryPageData?.Data?.mostSellingCourses?.slice(0,4)
+              .map((course, index)=> (
+                <Course_Card course={course} key={index} />
+              ))
+            }
           </div>
         </div>
 

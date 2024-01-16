@@ -73,7 +73,7 @@ exports.categoryPageDetails = async (req,res) => {
                                                 .populate({
                                                    path:"courses",
                                                    match: {status:"Published"},
-                                                   populate:"RatingAndReviews", 
+                                                   //populate:"RatingAndReviews", 
                                                 })
                                                 .exec();
 
@@ -87,13 +87,13 @@ exports.categoryPageDetails = async (req,res) => {
             })
         }
 
-        // if(selectedCourses.courses.length== 0){
-        //     console.log("No courses for these category");
-        //     return res.status(400).json({
-        //         success:false,
-        //         message:"No Courses found for these category"
-        //     })
-        // }
+        if(selectedCourses.courses.length== 0){
+            console.log("No courses for these category");
+            return res.status(400).json({
+                success:false,
+                message:"No Courses found for these category"
+            })
+        }
 
         //get courses for different category
         const categoriesExceptedSelected = await Category.find({
@@ -119,8 +119,9 @@ exports.categoryPageDetails = async (req,res) => {
                 },
              })
              .exec()
-        
-        const allCourses = allCategories.flat((category) => category.courses); // flat method create a copy of array
+        console.log("values of all Categories are - ", allCategories);
+        const allCourses = allCategories.flatMap((category) => category.courses); // flat method create a copy of array
+        console.log("Value of allCourses are ", allCourses);
         const mostSellingCourses = allCourses
             .sort((a,b)=>b.sold - a.sold) //it gives high to low order of sold sorting
             .slice(0,10)

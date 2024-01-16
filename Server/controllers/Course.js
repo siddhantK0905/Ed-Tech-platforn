@@ -16,7 +16,7 @@ exports.createCourse = async (req,res) => {
 
         //fetch thumbnail
 		    const thumbnail = req.files.thumbnailImage;
-        console.log("Value in thumbnail",thumbnail)
+        console.log("Category Value is - ",category);
 
 
         //validation 
@@ -52,16 +52,17 @@ exports.createCourse = async (req,res) => {
             })
         }
 
-        //Categorys is valid or not
-        //   const categoryDetails = await Category.findById(category);
-        //   if(!categoryDetails){
-        //       return res.status(401).json({
-        //           success:false,
-        //           message:"category not Found"
-        //       })
-        //   }
 
-        console.log("WhatYouWillLearn value is",whatYouWillLearn);
+        //Categorys is valid or not
+          const categoryDetails = await Category.findById(category);
+          if(!categoryDetails){
+              return res.status(401).json({
+                  success:false,
+                  message:"category not Found"
+              })
+          }
+
+        console.log("categoryDetails is - ",categoryDetails);
         //upload image on cloudinary
         const thumbnailImage = await uploadImageToCloudinary(thumbnail,process.env.FOLDER_NAME);
         console.log("ThumbnailImage is ", thumbnailImage);
@@ -74,7 +75,7 @@ exports.createCourse = async (req,res) => {
             whatYouWillLearn:whatYouWillLearn,
             price,
             tag:tag,
-          //  category:categoryDetails._id,
+            category:categoryDetails._id,
             status:status,
             thumbnail:thumbnailImage.secure_url,
             instructions:instructions
@@ -91,14 +92,14 @@ exports.createCourse = async (req,res) => {
                                     );
 
         //add course in Category
-        //   await Category.findByIdAndUpdate({_id:categoryDetails._id},
-        //                               {
-        //                                   $push:{
-        //                                       course : newCourse._id,
-        //                                   }
-        //                               },
-        //                               {new:true}
-        //                               ) 
+          await Category.findByIdAndUpdate({_id:categoryDetails._id},
+                                      {
+                                          $push:{
+                                            courses : newCourse._id,
+                                          }
+                                      },
+                                      {new:true}
+                                      ) 
 
         //return response                            
         return res.status(200).json({

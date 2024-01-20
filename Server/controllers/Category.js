@@ -43,12 +43,13 @@ exports.createCategory = async (req,res) => {
 
 exports.showAllCategories = async (req,res) => {
     try{
-        const allData = await Category.find({}, {name:true, description:true})
-        console.log(allData);
+        const allData = await Category.find({}, {name:true, description:true,courses:true})
+
+        console.log("All Cat data ",allData);
         return res.status(200).json({
             success:true,
             message:"All Tags returned successfully",
-            allData
+            allData: allData
         })
     }
     catch(err){
@@ -70,14 +71,14 @@ exports.categoryPageDetails = async (req,res) => {
         //Selected courses for specific category
         console.log("INto categoryPageDetails at server with category id is ",categoryId )
         const selectedCourses = await Category.findById(categoryId)
-                                                .populate({
-                                                   path:"courses",
-                                                   match: {status:"Published"},
-                                                   //populate:"RatingAndReviews", 
-                                                })
-                                                .exec();
+        .populate({
+            path: "courses",
+            match: { status: "Published" },
+            //populate: "ratingAndReviews",
+          })
+          .exec()   
 
-        console.log("Selected courses are ", selectedCourses)    
+        console.log("Selected courses are ", selectedCourses.courses)    
         
         //validation
         if(!selectedCourses){
@@ -119,9 +120,9 @@ exports.categoryPageDetails = async (req,res) => {
                 },
              })
              .exec()
-        console.log("values of all Categories are - ", allCategories);
+        // console.log("values of all Categories are - ", allCategories);
         const allCourses = allCategories.flatMap((category) => category.courses); // flat method create a copy of array
-        console.log("Value of allCourses are ", allCourses);
+        // console.log("Value of allCourses are ", allCourses);
         const mostSellingCourses = allCourses
             .sort((a,b)=>b.sold - a.sold) //it gives high to low order of sold sorting
             .slice(0,10)

@@ -11,6 +11,7 @@ const Catalog = () => {
   const [categoryPageData, setCategoryPageData] = useState(null);
   const {catalogName} = useParams();
   const [categoryId, setCategoryId] = useState();
+  const [active, setActive] = useState(1);
 
   useEffect(()=>{
 
@@ -38,28 +39,49 @@ const Catalog = () => {
 
   return (
     <div className=' text-white'>
-      <div>
-        <p>Home / Catlog / <span> {` ${categoryPageData?.Data?.selectedCourses?.name}`}</span></p>
-        <p>{categoryPageData?.Data?.selectedCourses?.name}</p>
-        <p>{categoryPageData?.Data?.selectedCourses?.description}</p>
 
+    {/* Hero Section */}
+      <div className=' bg-richblack-800 px-4 box-content'>
+        <div className='mx-auto flex min-h-[260px] flex-col justify-center gap-4 lg:max-w-maxContent max-w-maxContentTab'>
+          <p className=' text-richblack-300 text-sm'>Home / Catelog / <span className=' text-yellow-50'> {` ${categoryPageData?.Data?.selectedCourses?.name}`}</span></p>
+          <p className=' text-3xl'>{categoryPageData?.Data?.selectedCourses?.name}</p>
+          <p className=' text-richblack-200 text-w-[870px]'>{categoryPageData?.Data?.selectedCourses?.description}</p>
+        </div>
+
+      </div>
 
         {/* section 1 */}
-        <div>
-          <p>Courses to get you started</p>
-          <div className='flex gap-x-3'>
-            <p>Most popular</p>
-            <p>New</p>
-            <p>Trending</p>
+        <div className='mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent'>
+          <p className=' text-3xl '>Courses to get you started</p>
+          <div className='flex  my-4 border-b border-b-richblack-600 text-sm gap-x-4'>
+            <p className={`py-2 ${
+              active === 1 ? 'border-b border-yellow-25 text-yellow-25':' text-richblack-50'
+            }`}
+            onClick={()=>{setActive(1)}}
+            >
+            Most popular</p>
+
+            <p className={`py-2 ${
+              active === 2 ? 'border-b border-yellow-25 text-yellow-25':' text-richblack-50'
+            }`}
+            onClick={()=>{setActive(2)}}
+            >New</p>
+
+            <p className={`py-2 ${
+              active === 3 ? 'border-b border-yellow-25 text-yellow-25': ' text-richblack-50'
+            }`}
+            onClick={()=>setActive(3)}
+            >Trending</p>
           </div>
+
           <div>
             <CourseSlider Courses={categoryPageData?.Data?.selectedCourses?.courses}/>
           </div>
         </div>
 
         {/* Section 2 */}
-        <div>
-          <div>Top courses in {categoryPageData?.Data?.selectedCourses?.name}</div>
+        <div className='mx-auto max-w-maxContentTab lg:max-w-maxContent box-content w-full px-4 py-12'>
+          <div className='text-3xl'>Top courses in {categoryPageData?.Data?.selectedCourses?.name}</div>
           <div>
             {
               (categoryPageData?.Data?.differentCategory?.courses ? (
@@ -71,8 +93,8 @@ const Catalog = () => {
         </div>
 
         {/* section 3 */}
-        <div>
-          <div>Frequently Bought Together</div>
+        <div className='mx-auto max-w-maxContentTab lg:max-w-maxContent box-content w-full px-4 py-12'>
+          <div className='text-3xl'>Frequently Bought Together</div>
           <div className='grid grid-cols-1 lg:grid-cols-2'>
             {
               categoryPageData?.Data?.mostSellingCourses?.slice(0,4)
@@ -83,7 +105,7 @@ const Catalog = () => {
           </div>
         </div>
 
-      </div>
+      
     </div>
   )
 }

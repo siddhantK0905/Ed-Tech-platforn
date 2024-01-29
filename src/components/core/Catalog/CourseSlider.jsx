@@ -27,7 +27,7 @@ const CourseSlider = ({Courses}) => {
                     dynamicBullets: true,
                     }}
                     modules={[Pagination]}
-                    className="mySwiper"
+                    className="mySwiper max-h-[30rem]"
                 >
                     {
                         Courses?.map((course, index)=> (
@@ -38,16 +38,13 @@ const CourseSlider = ({Courses}) => {
                     }   
                 </Swiper>
 
-            ) :(<p></p>)
+            ) :(<p className=' text-xl text-richblack-5'>No Course Found</p>)
           }
             
 
-          <p>No Course Found</p>
+          
 
-    
-    
-
-      <p>{"HIII"}</p>
+  
     </>
   )
 }

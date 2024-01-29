@@ -81,7 +81,7 @@ const Catalog = () => {
 
         {/* Section 2 */}
         <div className='mx-auto max-w-maxContentTab lg:max-w-maxContent box-content w-full px-4 py-12'>
-          <div className='text-3xl'>Top courses in {categoryPageData?.Data?.selectedCourses?.name}</div>
+          <div className='text-3xl my-8'>Top courses in {categoryPageData?.Data?.differentCategory?.name}</div>
           <div>
             {
               (categoryPageData?.Data?.differentCategory?.courses ? (
@@ -94,8 +94,8 @@ const Catalog = () => {
 
         {/* section 3 */}
         <div className='mx-auto max-w-maxContentTab lg:max-w-maxContent box-content w-full px-4 py-12'>
-          <div className='text-3xl'>Frequently Bought Together</div>
-          <div className='grid grid-cols-1 lg:grid-cols-2'>
+          <div className='text-3xl my-8'>Frequently Bought Together</div>
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
             {
               categoryPageData?.Data?.mostSellingCourses?.slice(0,4)
               .map((course, index)=> (

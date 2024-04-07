@@ -71,7 +71,7 @@ function App() {
 
           <Route path="/catalog/:catalogName" element={<Catalog/>}></Route>
 
-          <Route path="courses/:_id" element={<CourseDetails/>}></Route>
+          <Route path="courses/:courseId" element={<CourseDetails/>}></Route>
          
 
           <Route path="*" element= <Error/> />

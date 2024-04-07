@@ -4,23 +4,28 @@ import { getUserEnrolledCourses } from '../../../services/operations/profileAPI'
 import ProgressBar from '@ramonak/react-progress-bar';
 
 const EnrolledCourses = () => {
-    const token = useSelector((state)=> state.profile);
-    const [enrolledCourses , setEnrolledCourses] = useState(null);
-
-    const getEnrolledCourses = async () => {
-      try{
-        const response = await getUserEnrolledCourses(token);
-        setEnrolledCourses(response);
-      }
-      catch(error){
-        console.log("Unable to fetch enrolled courses");
-        console.log(error);
-      }
-    }
+    const {token} = useSelector((state)=> state.auth);
     
-    useEffect( ()=>{
+    const [enrolledCourses, setEnrolledCourses] = useState(null)
+    const getEnrolledCourses = async () => {
+      try {
+        const res = await getUserEnrolledCourses(token);
+  
+        console.log("Res is ", res)
+
+        setEnrolledCourses(res);
+        
+        console.log("enrolledCourses value is", enrolledCourses);
+
+
+      } catch (error) {
+        console.log("Could not fetch enrolled courses.")
+      }
+    };
+    useEffect(() => {
       getEnrolledCourses();
-    },[]);
+    }, [])
+    
 
   return (
     <div>
@@ -44,6 +49,7 @@ const EnrolledCourses = () => {
 
                 {/* Showing Cards details */}
                   {
+                  
                     enrolledCourses.map((index, course) => (
                       <div>
                         <div>

@@ -13,12 +13,15 @@ export async function getUserEnrolledCourses(token){
             null,
             {
                 Authorization: `Bearer ${token}`,
-            } 
+              } 
         )
+
+        console.log("Response in ProfileAPI", response)
 
         if(!response.data.success){
             throw new Error(response.data.message)
         }
+        
         result = response.data.data
     }
     catch(err){

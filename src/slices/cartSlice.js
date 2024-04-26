@@ -4,7 +4,9 @@ import toast from "react-hot-toast";
 const initialState = {
     totalItems : localStorage.getItem("totalItems") ? JSON.parse(localStorage.getItem("totalItems")) : 0 ,
     total : localStorage.getItem("total") ? JSON.parse(localStorage.getItem("total")) : 0,
-    cart : localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : 0,
+    cart: localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart"))
+    : [],
 }
 
 
@@ -15,7 +17,10 @@ const cartSlice = createSlice({
     reducers:{
         addToCart: (state,actions)=>{
             const course = actions.payload;
-            const index = state.cart.findIndex( (item)=> item.id === course.id);
+            console.log("cart value is", state)
+
+            const index = state.cart.findIndex((item) => item._id === course._id)
+
 
             //if course is already added into list then dont add it again
             if(index >= 0){
@@ -31,9 +36,9 @@ const cartSlice = createSlice({
             state.total += course.price
 
             //update the local storage
-            localStorage.setItem("cart",JSON.stringify("cart"));
-            localStorage.setItem("totalItems", JSON.stringify("totalItems"));
-            localStorage.setItem("total",JSON.stringify("total"));
+            localStorage.setItem("cart",JSON.stringify(state.cart));
+            localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
+            localStorage.setItem("total",JSON.stringify(state.total));
 
             //showing toast
             toast.success("Course added successfully");

@@ -298,7 +298,7 @@ export const getFullDetailsOfCourse = async (courseId, token) => {
             throw new Error ("Could not get full details")
         }
 
-        result = response?.data?.data;
+        result = response?.data;
     }
     catch(err){
         console.error(err);

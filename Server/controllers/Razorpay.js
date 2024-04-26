@@ -146,6 +146,8 @@ exports.verifyPayment = async (req,res) => {
 
             //send mail to each student 
             const mailResponse = await mailSender(
+
+                //Unable to send email to user
                     enrollStudents.email,
                     "Congratulations",
                     courseEnrollmentEmail(enrolledCourse.courseName, `${enrolledStudent.firstName}`)

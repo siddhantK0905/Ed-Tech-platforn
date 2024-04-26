@@ -60,6 +60,10 @@ const Course = new mongoose.Schema({
         enum :["Draft", "Published"]
     },
 
+    createdAt:{
+        type:Date,
+        default: Date.now
+    },
 })
 
 

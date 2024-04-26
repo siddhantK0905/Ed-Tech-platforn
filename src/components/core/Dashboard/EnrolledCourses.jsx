@@ -11,6 +11,8 @@ const EnrolledCourses = () => {
       try {
         const res = await getUserEnrolledCourses(token);
   
+
+        //Unable to fetch Course details
         console.log("Res is ", res)
 
         setEnrolledCourses(res);

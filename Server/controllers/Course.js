@@ -5,6 +5,7 @@ const {uploadImageToCloudinary} = require("../utils/imageUploader");
 const Section = require("../models/Section");
 const CourseProgress = require("../models/CourseProgress")
 const SubSection = require("../models/SubSection");
+const { convertSecondsToDuration } = require("../../src/utils/secToDuration");
 
 require("dotenv").config()
 
@@ -391,6 +392,13 @@ exports.getCourseFullDetails = async (req, res) => {
           path: "additionalDetails"
         },
       })
+      .populate("category")
+      .populate({
+        path:"courseContent",
+        populate:{
+          path:"subSection",
+        }
+      })
       .exec()
 
         console.log("After populating")
@@ -411,21 +419,24 @@ exports.getCourseFullDetails = async (req, res) => {
 
       let totalDurationInSeconds = 0;
 
-      // courseDetails.courseContent.forEach((content) =>{
-      //   content.subSection.forEach((subSection)=>{
-      //     const timeDurationInSecond = parseInt(subSection.timeDuration);
-      //     totalDurationInSeconds += timeDurationInSecond;
-      //   })
-      // })
+       courseDetails.courseContent.forEach((content) =>{
+         content.subSection.forEach((subSection)=>{
+           const timeDurationInSecond = parseInt(subSection.timeDuration);
+           totalDurationInSeconds += timeDurationInSecond;
+         })
+       })
 
+      const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
       console.log(" Result from CourseDetails controller",courseDetails)
 
       return res.status(200).json({
         success:true,
         data:{
           courseDetails,
-          totalDurationInSeconds,
-        }
+          totalDuration,
+          completedVideos: courseProgressCount?.completedVideo 
+          ? courseProgressCount?.completedVideo : []
+         }
       })
 
     }
